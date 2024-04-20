@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serra Alta</title>
+  <script src="https://cdn.tailwindcss.com" fetchpriority="high"></script>
+  <script>
+    function handleIt() {
+      const startDateInput = document.querySelector('input[name="start-date"]');
+      const endDateInput = document.querySelector('input[name="end-date"]');
+      const adults = document.querySelector('input[name="adults"]');
+      const children = document.querySelector('input[name="children"]');
+      const childrenAge = document.querySelectorAll('input[name="children-age"]');
+
+      const payload = {};
+
+      if (startDateInput.value) {
+        const [month, day, year] = startDateInput.value.split('-');
+        payload.startDate = `${day}/${month}/${year}`;
+      }
+
+      if (endDateInput.value) {
+        const [month, day, year] = endDateInput.value.split('-');
+        payload.endDate = `${day}/${month}/${year}`;
+      }
+
+      if (adults.value) {
+        payload.adults = adults.value;
+      }
+
+      if (children.value) {
+        payload.children = children.value;
+      }
+
+      if (childrenAge.value) {
+        payload.childrenAge = childrenAge.value;
+      }
+
+      if (childrenAge) {
+        payload.childrenAge = Array.from(childrenAge).map(input => input.value).join(',');
+      }
+
+      const link = `https://hbook.hsystem.com.br/booking?companyId=56a7964dc19a3b1aac925cb1&checkin=${payload.startDate}&checkout=${payload.endDate}&adults=${payload.adults}&children=${payload.children}&childrenage=${payload.childrenAge}&utm_source=website&utm_medium=search-box&utm_campaign=website`
+
+      window.open(link, '_blank');
+    }
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    ::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      width: 20px;
+      height: 20px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- TODO: REMOVE H-SCREEN -->
+  <form class="w-full h-screen max-w-[1440px] flex items-center justify-center gap-8 p-20 bg-black/90" action="javascript:handleIt()">
+    <div class="relative max-w-xs">
+      <input autocomplete="off" name="start-date" type="date" class="bg-transparent border-b border-b-white text-white text-sm focus:outline-none focus:border-b focus:border-[#E40024] block p-2.5 pr-0" placeholder="Chegada">
+    </div>
+    <div class="relative max-w-xs">
+      <input autocomplete="off" name="end-date" type="date" class="bg-transparent border-b border-b-white text-white text-sm focus:outline-none focus:border-b focus:border-[#E40024] block p-2.5 pr-0" placeholder="Saída">
+    </div>
+    <div class="relative max-w-xs">
+      <div class="absolute inset-y-0 end-0 flex items-center ps-3.5 pointer-events-none">
+        <svg class="w-6 h-6 text-transparent" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path class="stroke-white"  d="M16 3.46776C17.4817 4.20411 18.5 5.73314 18.5 7.5C18.5 9.26686 17.4817 10.7959 16 11.5322M18 16.7664C19.5115 17.4503 20.8725 18.565 22 20M2 20C3.94649 17.5226 6.58918 16 9.5 16C12.4108 16 15.0535 17.5226 17 20M14 7.5C14 9.98528 11.9853 12 9.5 12C7.01472 12 5 9.98528 5 7.5C5 5.01472 7.01472 3 9.5 3C11.9853 3 14 5.01472 14 7.5Z"/>
+        </svg>
+      </div>
+      <input autocomplete="off" name="adults" type="number" class="bg-transparent border-b border-b-white text-white text-sm focus:outline-none focus:border-b focus:border-[#E40024] block pe-10 p-2.5" placeholder="Qtd. Adultos">
+    </div>
+    <div class="relative max-w-xs">
+      <div class="absolute inset-y-0 end-0 flex items-center ps-3.5 pointer-events-none">
+        <svg class="w-6 h-6 text-transparent" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path class="stroke-white"  d="M16 3.46776C17.4817 4.20411 18.5 5.73314 18.5 7.5C18.5 9.26686 17.4817 10.7959 16 11.5322M18 16.7664C19.5115 17.4503 20.8725 18.565 22 20M2 20C3.94649 17.5226 6.58918 16 9.5 16C12.4108 16 15.0535 17.5226 17 20M14 7.5C14 9.98528 11.9853 12 9.5 12C7.01472 12 5 9.98528 5 7.5C5 5.01472 7.01472 3 9.5 3C11.9853 3 14 5.01472 14 7.5Z"/>
+        </svg>
+      </div>
+      <div class="relative">
+        <input autocomplete="off" name="children" type="number" class="bg-transparent border-b border-b-white text-white text-sm focus:outline-none focus:border-b focus:border-[#E40024] block pe-10 p-2.5" placeholder="Qtd. Crianças">
+        <div id="dropdown" class="hidden absolute bottom-0 left-0 bg-gray-800 w-full z-10 mb-12">
+          <div class="flex py-2.5 px-5 w-full flex-col gap-2"></div>
+        </div>
+      </div>
+    </div>
+    <button class="text-white font-bold rounded-md bg-[#E40024] hover:bg-[#C70020] px-8 py-2.5" type="submit">Reserve agora</button>
+  </form>
+  <script>
+    const startDateInput = document.querySelector('input[name="start-date"]');
+    const endDateInput = document.querySelector('input[name="end-date"]');
+    const adults = document.querySelector('input[name="adults"]');
+    const children = document.querySelector('input[name="children"]');
+    let today = new Date();
+    let nextDay = new Date();
+    nextDay.setDate(today.getDate() + 1);
+
+    startDateInput.value = today.toISOString().split('T')[0];
+    endDateInput.value = nextDay.toISOString().split('T')[0];
+    adults.value = 2;
+
+    children.addEventListener('input', (e) => {
+      const childrenAgeContainer = document.querySelector('div#dropdown');
+      const childrenAgeContainerDiv = document.querySelector('div#dropdown div');
+      const amountOfChildren = children.value;
+      if (e.target.value) {
+        childrenAgeContainer.classList.remove('hidden');
+        childrenAgeContainer.classList.add('block');
+        childrenAgeContainerDiv.innerHTML = '';
+
+        for (let i = 1; i <= amountOfChildren; i++) {
+          const input = document.createElement('input');
+          input.name = 'children-age';
+          input.type = 'text';
+          input.placeholder = `Criança ${i}`;
+          input.classList.add('w-full', 'bg-transparent', 'border-b', 'border-b-white', 'text-white', 'text-sm', 'focus:outline-none', 'focus:border-b', 'focus:border-[#E40024]', 'block', 'p-2.5');
+          childrenAgeContainerDiv.appendChild(input);
+        }
+
+        const okButton = document.createElement('button');
+        okButton.classList.add('text-white', 'font-bold', 'rounded-md', 'bg-[#E40024]', 'hover:bg-[#C70020]', 'px-8', 'py-2.5');
+        okButton.textContent = 'Ok';
+        okButton.type = 'button';
+        okButton.addEventListener('click', () => {
+          const childrenAge = document.querySelectorAll('input[name="children-age"]');
+          const values = Array.from(childrenAge).map(input => input.value).filter(Boolean)
+          if (childrenAge.length !== values.length) {
+            alert('Preencha todos os campos');
+            return;
+          }
+          childrenAgeContainer.classList.remove('block');
+          childrenAgeContainer.classList.add('hidden');
+        });
+        childrenAgeContainerDiv.appendChild(okButton);
+
+      } else {
+        childrenAgeContainer.classList.remove('block');
+        childrenAgeContainer.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
