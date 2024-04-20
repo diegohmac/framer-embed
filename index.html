@@ -33,10 +33,6 @@
         payload.children = children.value;
       }
 
-      if (childrenAge.value) {
-        payload.childrenAge = childrenAge.value;
-      }
-
       if (childrenAge) {
         payload.childrenAge = Array.from(childrenAge).map(input => input.value).join(',');
       }
